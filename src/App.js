@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+	ApolloClient,
+	InMemoryCache,
+	ApolloProvider,
+	HttpLink,
+	from,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
+import Main from "./containers/Main";
+import { FruitProvider } from "./context/fruitContext";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+	if (graphQLErrors) {
+		graphQLErrors.map(({ message, locations, path }) => {
+			console.log(`Graphql error ${message}`);
+		});
+	}
+});
+
+const link = from([
+	errorLink,
+	new HttpLink({ uri: "https://fruits-api.netlify.app/graphql" }),
+]);
+
+const client = new ApolloClient({
+	cache: new InMemoryCache(),
+	link: link,
+});
+
+export default function App(props) {
+	return (
+		<ApolloProvider client={client}>
+			<FruitProvider>
+				<Main />
+			</FruitProvider>
+		</ApolloProvider>
+	);
 }
-
-export default App;

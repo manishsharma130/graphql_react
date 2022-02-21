@@ -1,0 +1,9 @@
+.mainHeader{
+height: min-content;
+padding: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+border: 1px solid red;
+width: 100%;
+}
