@@ -1,5 +1,7 @@
 import React from "react";
-
+/**
+ * Custom Hooks
+ */
 export const useDebounce = (cb = () => {}, delay = 0, deps = []) => {
 	const cbRefs = React.useRef(cb);
 	const timeId = React.useRef(null);

@@ -9,7 +9,6 @@ export const FruitProvider = (props) => {
 	const [filter, setFilter] = React.useState([]);
 	const { error, loading, data } = useQuery(LOAD_USERS);
 	React.useEffect(() => {
-		console.log("Data:- ", data);
 		setFruits(data?.fruits || []);
 	}, [data]);
 	return (
